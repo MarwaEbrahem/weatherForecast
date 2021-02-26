@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MyNavigation</string>
+    <string name="title_home">weather</string>
+    <string name="title_dashboard">fav</string>
+    <string name="title_notifications">alarm</string>
+    <string name="title_setting">Setting</string>
+</resources>
