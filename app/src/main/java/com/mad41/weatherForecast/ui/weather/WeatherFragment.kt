@@ -56,28 +56,6 @@ class WeatherFragment : Fragment() {
             }
             }
         })
-      /*  homeViewModel.CurrentFromRoomLiveData.observe(viewLifecycleOwner, Observer {
-            when(it){
-                is Resource.Success -> {
-                   // displayCurrentWeatherToRecycleView(it.data)
-                   // it.data?.let { it1 -> initUI(it1) }
-                }
-                is Resource.Error -> {
-                    showErrorMessage(it.message)
-                }
-            }
-        })
-        homeViewModel.dailyFromRoomLiveData.observe(viewLifecycleOwner, Observer {
-            when(it){
-                is Resource.Success -> {
-                    it.data?.let { it1 -> displayDailyWeatherToRecycleView(it1) }
-                    it.data?.let { it1 -> initUI(it1) }
-                }
-                is Resource.Error -> {
-                    showErrorMessage(it.message)
-                }
-            }
-        })*/
         homeViewModel.weatherFromRoomLiveData.observe(viewLifecycleOwner, Observer {
             when(it){
                 is Resource.Success -> {

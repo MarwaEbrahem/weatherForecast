@@ -23,8 +23,6 @@ class WeatherViewModel: ViewModel() {
      }
 
     val WeatherLiveData = MutableLiveData<Resource<weather>>()
-   // val CurrentFromRoomLiveData = MutableLiveData<Resource<Current>>()
-   // val dailyFromRoomLiveData = MutableLiveData<Resource<List<Daily>>>()
     val weatherFromRoomLiveData = MutableLiveData<Resource<weather>>()
 
     fun getWeatherAPIData(context: Context) =  CoroutineScope(Dispatchers.IO).launch {
@@ -36,11 +34,7 @@ class WeatherViewModel: ViewModel() {
             }else{
                 WeatherLiveData.postValue(Resource.Error("No internet connection"))
             }
-            //val current = newRepo.getCurrentWeatherFromRoom(context)
-           // val daily = newRepo.getDailyWeatherFromRoom(context)
             val weather = newRepo.getWeatherFromRoom(context)
-            //CurrentFromRoomLiveData.postValue(handleGetCurrentWeatherFromRoom(current)!!)
-          //  dailyFromRoomLiveData.postValue(handleGetDailyWeatherFromRoom(daily)!!)
             weatherFromRoomLiveData.postValue(handleGetWeatherFromRoom(weather)!!)
         }catch (t:Throwable){
             when(t){
@@ -57,30 +51,12 @@ class WeatherViewModel: ViewModel() {
         return Resource.Error("Room is empty")
     }
 
-  /*  private fun handleGetDailyWeatherFromRoom(daily: List<Daily>): Resource<List<Daily>>? {
-        if(daily != null){
-            return Resource.Success(daily)
-        }
-        return Resource.Error("Room is empty")
-    }
-
-    private fun handleGetCurrentWeatherFromRoom(current: Current): Resource<Current>? {
-         if(current != null){
-             return Resource.Success(current)
-         }
-        return Resource.Error("Room is empty")
-    }*/
-
     private suspend fun handleGetWeatherApiData(
         response: retrofit2.Response<weather>,
         context: Context
     ): Resource<weather>? {
        if(response.isSuccessful){
           response.body()?.let {
-            //  val current = it.current
-             // val daily = it.daily
-             // newRepo.insertcurrentWeatherToRoom(context,current)
-             // newRepo.insertDailyWeatherToRoom(context, daily)
               newRepo.insertWeatherToRoom(context,it)
               return Resource.Success(it)
           }
