@@ -9,9 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.mad41.weatherForecast.R
-import com.mad41.weatherForecast.dataLayer.entity.Current
-import com.mad41.weatherForecast.dataLayer.entity.Daily
-import com.mad41.weatherForecast.dataLayer.entity.weather
+import com.mad41.weatherForecast.dataLayer.entity.weatherModel.Daily
 
 class weatherAdapter(var dailyWeather: List<Daily>) :
     RecyclerView.Adapter<weatherAdapter.CurrentViewHolder>() {
@@ -35,7 +33,7 @@ class weatherAdapter(var dailyWeather: List<Daily>) :
     class CurrentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         private val imageView = view.findViewById<ImageView>(R.id.imageView)
-        private val currentDate =  view.findViewById<TextView>(R.id.date)
+        private val currentDate =  view.findViewById<TextView>(R.id.address)
         //private val countryCapital = view.capital
 
         fun bind(dailyWeather: Daily) {

@@ -1,8 +1,7 @@
-package com.mad41.weatherForecast.dataLayer.local
+package com.mad41.weatherForecast.dataLayer.local.weatherData
 
 import androidx.room.*
-import com.mad41.weatherForecast.dataLayer.entity.Current
-import com.mad41.weatherForecast.dataLayer.entity.weather
+import com.mad41.weatherForecast.dataLayer.entity.weatherModel.weather
 
 @Dao
 interface allWeatherDao {

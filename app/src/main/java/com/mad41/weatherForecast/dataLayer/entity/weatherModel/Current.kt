@@ -1,8 +1,4 @@
-package com.mad41.weatherForecast.dataLayer.entity
-
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+package com.mad41.weatherForecast.dataLayer.entity.weatherModel
 
 data class Current(
 

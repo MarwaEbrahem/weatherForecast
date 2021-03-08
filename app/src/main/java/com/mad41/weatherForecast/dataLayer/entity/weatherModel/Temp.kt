@@ -1,4 +1,4 @@
-package com.mad41.weatherForecast.dataLayer.entity
+package com.mad41.weatherForecast.dataLayer.entity.weatherModel
 
 data class Temp(
     val day: Double,

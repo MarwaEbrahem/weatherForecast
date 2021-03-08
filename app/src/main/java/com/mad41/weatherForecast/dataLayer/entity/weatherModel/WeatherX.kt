@@ -1,6 +1,6 @@
-package com.mad41.weatherForecast.dataLayer.entity
+package com.mad41.weatherForecast.dataLayer.entity.weatherModel
 
-data class WeatherXX(
+data class WeatherX(
     val description: String,
     val icon: String,
     val id: Int,

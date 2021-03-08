@@ -1,0 +1,58 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/messages_header">
+
+        <ListPreference
+            app:defaultValue="choose on map"
+            app:entries="@array/reply_entries"
+            app:entryValues="@array/reply_values"
+            app:key="location"
+            app:title="@string/location_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+    <Preference
+        app:isPreferenceVisible="false"
+        app:key="map_key"
+        app:persistent="false"
+        app:selectable="false"
+        app:summary=""
+         />
+    <Preference
+        app:key="@string/fav"
+        app:layout="@layout/fav_button"
+        app:isPreferenceVisible="false"/>
+    <Preference
+        app:key="@string/fav_after"
+        app:layout="@layout/fav_button_after"
+        app:isPreferenceVisible="false"/>
+
+    <PreferenceCategory app:title="@string/unite_title">
+        <ListPreference
+            app:defaultValue="temp_c"
+            app:entries="@array/Temp_unit"
+            app:entryValues="@array/Temp_unit_values"
+            app:key="Temp"
+            app:title="@string/temp_unit"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            app:defaultValue="meters"
+            app:entries="@array/wind_speed"
+            app:entryValues="@array/wind_speed_values"
+            app:key="wind"
+            app:title="@string/wind_speed"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/language">
+        <ListPreference
+            app:defaultValue="English"
+            app:entries="@array/language"
+            app:entryValues="@array/language_values"
+            app:key="language"
+            app:title="language"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

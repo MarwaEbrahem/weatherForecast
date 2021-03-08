@@ -1,14 +1,14 @@
-package com.mad41.weatherForecast.dataLayer.local
+package com.mad41.weatherForecast.dataLayer.local.weatherData
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.mad41.weatherForecast.dataLayer.entity.*
+import com.mad41.weatherForecast.dataLayer.entity.weatherModel.*
 import java.lang.reflect.Type
 
 
 class dataConverter {
-    @TypeConverter // note this annotation
+  /*  @TypeConverter // note this annotation
     fun fromWeatherXXList(DailyValues: List<WeatherXX?>?): String? {
         if (DailyValues == null) {
             return null
@@ -83,7 +83,7 @@ class dataConverter {
         val gson = Gson()
         val type: Type = object : TypeToken<List<WeatherX?>?>() {}.type
         return gson.fromJson<List<WeatherX?>>(CurrentString, type)
-    }
+    }*/
     @TypeConverter // note this annotation
     fun fromCurrent(CurrentValues: Current?): String? {
         if (CurrentValues == null) {

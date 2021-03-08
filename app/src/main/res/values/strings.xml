@@ -4,4 +4,30 @@
     <string name="title_dashboard">fav</string>
     <string name="title_notifications">alarm</string>
     <string name="title_setting">Setting</string>
+    <string name="title_activity_maps">Map</string>
+    <!-- Preference Titles -->
+    <!-- Preference Titles -->
+    <string name="messages_header">Location Mode</string>
+    <string name="temp_unit">Temperature unite</string>
+    <string name="wind_speed">wind speed</string>
+    <string name="language">Language</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="location_title">Location</string>
+    <string name="unite_title">unit</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="sync_header">Sync</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="fav">fav</string>
+    <string name="fav_after">fav_after</string>
+    <string name="deleteEntry">do you want delete this location ?</string>
+    <string name="TitleDelete">Delete Location</string>
 </resources>

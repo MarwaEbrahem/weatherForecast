@@ -1,6 +1,6 @@
 package com.mad41.weatherForecast.dataLayer.remote
 
-import com.mad41.weatherForecast.dataLayer.entity.weather
+import com.mad41.weatherForecast.dataLayer.entity.weatherModel.weather
 import com.mad41.weatherForecast.dataLayer.remote.Constants.Companion.API_KEY
 import retrofit2.Response
 import retrofit2.http.GET

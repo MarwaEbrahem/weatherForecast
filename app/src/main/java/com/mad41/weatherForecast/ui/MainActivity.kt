@@ -1,16 +1,23 @@
 package com.mad41.weatherForecast.ui
 
+import android.content.SharedPreferences
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.PreferenceManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mad41.weatherForecast.R
+import com.mad41.weatherForecast.ui.setting.SettingFragment1
+import com.mad41.weatherForecast.ui.setting.SettingFragment2
+import com.mad41.weatherForecast.ui.weather.WeatherViewModel
 
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -25,7 +32,12 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_notifications,
             R.id.navigation_setting
         ))
-        setupActionBarWithNavController(navController, appBarConfiguration)
+       // setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+       finishAffinity()
     }
 }

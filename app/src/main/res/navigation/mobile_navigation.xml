@@ -15,7 +15,7 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.mad41.weatherForecast.ui.favorite.FavoriteFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_favLocations" />
 
     <fragment
         android:id="@+id/navigation_notifications"
@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/navigation_setting"
-        android:name="com.mad41.weatherForecast.ui.setting.SettingFragment"
+        android:name="com.mad41.weatherForecast.ui.setting.SettingFragment1"
         android:label="@string/title_setting"
         tools:layout="@layout/fragment_setting" />
 </navigation>
