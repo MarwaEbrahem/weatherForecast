@@ -2,25 +2,61 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_weight="16"
+    app:cardCornerRadius="25dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="130dp"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/day"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:textColor="#FFC107"
+            android:textSize="18sp" />
+
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/weatherIcone"
             android:layout_width="46dp"
             android:layout_height="37dp"
+            android:layout_gravity="center"
             tools:srcCompat="?android:attr/textSelectHandle" />
 
         <TextView
-            android:id="@+id/address"
-            android:layout_width="157dp"
+            android:id="@+id/desc"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:gravity="center"
+            android:paddingBottom="3dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/Dtemp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="3dp" />
+
+        <TextView
+            android:id="@+id/windSp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="3dp" />
     </LinearLayout>
 
 

@@ -1,11 +1,15 @@
 package com.mad41.weatherForecast.ui.weather
 
+import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.location.Address
+import android.location.Geocoder
 import android.net.ConnectivityManager
 import android.net.ConnectivityManager.*
 import android.net.NetworkCapabilities.*
 import android.os.Build
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.preference.PreferenceManager
@@ -14,28 +18,35 @@ import com.mad41.weatherForecast.dataLayer.entity.weatherModel.weather
 import com.mad41.weatherForecast.dataLayer.repository
 import kotlinx.coroutines.*
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
-class WeatherViewModel: ViewModel() {
+class WeatherViewModel(application: Application) : AndroidViewModel(application) {
+    private val context = getApplication<Application>().applicationContext
     lateinit var language : String
+    lateinit var Units : String
     lateinit var l : String
     var lat : Double = 0.0
     var long : Double = 0.0
+    var SP : SharedPreferences
 
     private val newRepo : repository
      init {
+         SP = PreferenceManager.getDefaultSharedPreferences(context)
          newRepo = repository()
      }
     val WeatherLiveData = MutableLiveData<Resource<weather>>()
     val goToSettingLiveData = MutableLiveData<Boolean>()
     val weatherFromRoomLiveData = MutableLiveData<Resource<weather>>()
 
-    fun getWeatherAPIData(context: Context) =  CoroutineScope(Dispatchers.IO).launch {
+    fun getWeatherAPIData() =  CoroutineScope(Dispatchers.IO).launch {
         WeatherLiveData.postValue(Resource.Loading())
         try {
             if(hasInternetConnection(context)){
                 getSettingDetails(context)
                 if(l!="null") {
-                    val response = newRepo.retrofitWeatherCall(lat, long, language, "metric")
+                    System.out.println("------------------------------------------->>>>>>------------$lat,$long")
+                    val response = newRepo.retrofitWeatherCall(lat, long, language, Units)
                     WeatherLiveData.postValue(handleGetWeatherApiData(response, context)!!)
                 }
                 else{
@@ -107,11 +118,58 @@ class WeatherViewModel: ViewModel() {
         } else if (languageSys.equals("Arabic")) {
             language = "ar"
         }
+        val units = SP.getString("Temp" , "temp_c").toString()
+        if(units.equals("temp_c")){
+            Units = "metric"
+        }else if(units.equals("temp_f")){
+            Units = "imperial"
+        }
         l = SP.getString("LatLng_Map", "null").toString()
         if (l != "null") {
-            long = l!!.split(",").get(0).toDouble()
-            lat = l!!.split(",").get(1).toDouble()
+            lat = l!!.split(",").get(0).toDouble()
+            long = l!!.split(",").get(1).toDouble()
         }
+    }
+     fun getDateTime(s: String , pattern:String , local : String): String? {
+        try {
+            val sdf = SimpleDateFormat(pattern , Locale(local))
+            val netDate = java.util.Date(s.toLong() * 1000)
+            return sdf.format(netDate)
+        } catch (e: Exception) {
+            return e.toString()
+        }
+    }
+    fun getAddress(lat : Double , lon:Double , context: Context , local : String): String {
+        val gcd = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Geocoder(context, Locale.forLanguageTag(local))
+        } else {
+            Geocoder(context, Locale.getDefault())
+        }
+        val addresses: List<Address> = gcd.getFromLocation(lat,lon, 1)
+        var Result : String = ""
+        if (addresses.size > 0) {
+            if(!addresses[0].countryName.equals(null)){
+                Result = Result + addresses[0].countryName
+            }
+            if(!addresses[0].countryName.equals(null)){
+                Result = Result +", "+ addresses[0].adminArea
+            }
+
+        } else {
+            Result = "unknown"
+        }
+        return Result
+    }
+    fun getAlarmStateFromSharedPreference(): Boolean {
+        return SP.getBoolean("Alarm_state",false)
+    }
+
+    fun getLanguageState():String{
+      val R = SP.getString("language" , "English")
+        if(R.equals("Arabic")){
+            return "ar"
+        }
+        return "en"
     }
 
 }

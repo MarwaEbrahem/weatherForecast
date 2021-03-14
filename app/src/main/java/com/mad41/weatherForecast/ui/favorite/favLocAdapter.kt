@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mad41.weatherForecast.R
 import com.mad41.weatherForecast.dataLayer.entity.favLocModel.favLocation
 import com.mad41.weatherForecast.ui.MainActivity
-import java.security.AccessController.getContext
 
 
 class favLocAdapter(
@@ -40,7 +39,7 @@ class favLocAdapter(
     }
 
     class CurrentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val address =  view.findViewById<TextView>(R.id.address)
+        private val address =  view.findViewById<TextView>(R.id.desc)
         private val latitute =  view.findViewById<TextView>(R.id.lat)
         private val langitute =  view.findViewById<TextView>(R.id.lan)
         private val delete =  view.findViewById<Button>(R.id.deleteLoc)
@@ -62,6 +61,9 @@ class favLocAdapter(
                         android.R.string.yes,
                         DialogInterface.OnClickListener { dialog, which ->
                             lis.DeleteLocation(favLoc.address)
+                            if(lis.getAddressFromSharedPreference()!!.equals(favLoc.address)){
+                                lis.writeFavInSharedPreference(false)
+                            }
                         })
                     .setNegativeButton(android.R.string.no, null)
                     .setIcon(android.R.drawable.ic_dialog_alert)

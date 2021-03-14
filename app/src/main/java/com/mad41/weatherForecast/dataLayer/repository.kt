@@ -1,11 +1,10 @@
 package com.mad41.weatherForecast.dataLayer
 
 import android.content.Context
-import android.location.Address
+import com.mad41.weatherForecast.dataLayer.entity.alarmModel.alarm
 import com.mad41.weatherForecast.dataLayer.entity.favLocModel.favLocation
 import com.mad41.weatherForecast.dataLayer.entity.weatherModel.weather
-import com.mad41.weatherForecast.dataLayer.local.fav_Location.favLocDatabase
-import com.mad41.weatherForecast.dataLayer.local.weatherData.weatherDatabase
+import com.mad41.weatherForecast.dataLayer.local.dataBase.weatherForecastDatabase
 import com.mad41.weatherForecast.dataLayer.remote.Constants.Companion.API_KEY
 import com.mad41.weatherForecast.dataLayer.remote.RetrofitInstance
 
@@ -13,24 +12,36 @@ import com.mad41.weatherForecast.dataLayer.remote.RetrofitInstance
  public class repository {
       //retrofit
      public suspend fun retrofitWeatherCall(lat:Double,long:Double,language:String,units : String) =
-        RetrofitInstance.getweatherinstance().getWeather(lat,long,"hourly,minutely",units,language,API_KEY)
+        RetrofitInstance.getweatherinstance().getWeather(lat,long,"minutely",units,language,API_KEY)
 
      //weather
      public suspend fun insertWeatherToRoom(context: Context ,weather: weather){
-         weatherDatabase.getInstance(context).getWeatherDao().weatherInsert(weather)
+         weatherForecastDatabase.getInstance(context).getWeatherDao().weatherInsert(weather)
      }
      public suspend fun getWeatherFromRoom(context: Context) =
-         weatherDatabase.getInstance(context).getWeatherDao().getWeatherInfo()
+         weatherForecastDatabase.getInstance(context).getWeatherDao().getWeatherInfo()
 
      //favLocation
      public suspend fun insertFavLocToRoom(context: Context ,favLocation: favLocation){
-        favLocDatabase.getInstance(context).getFavLocDao().favLocInsert(favLocation)
+         weatherForecastDatabase.getInstance(context).getFavLocDao().favLocInsert(favLocation)
      }
      public suspend fun getFavLocFromRoom(context: Context) =
-         favLocDatabase.getInstance(context).getFavLocDao().getFavLocations()
+         weatherForecastDatabase.getInstance(context).getFavLocDao().getFavLocations()
 
      public suspend fun deleteFavLocFromRoom(context: Context,address : String){
-         favLocDatabase.getInstance(context).getFavLocDao().deleteLocation(address)
+         weatherForecastDatabase.getInstance(context).getFavLocDao().deleteLocation(address)
      }
+     public suspend fun FavLocFromIsExistInRoom(context: Context,address : String)=
+         weatherForecastDatabase.getInstance(context).getFavLocDao().exists(address)
 
+     //alarm
+     public suspend fun insertAlarmToRoom(context: Context ,alarm: alarm){
+         weatherForecastDatabase.getInstance(context).getAlarmDao().alarmInsert(alarm)
+     }
+     public suspend fun getAlarmFromRoom(context: Context) =
+         weatherForecastDatabase.getInstance(context).getAlarmDao().getAlarm()
+
+     public suspend fun deleteAlarmToRoom(context: Context ,id : Int){
+         weatherForecastDatabase.getInstance(context).getAlarmDao().deleteAlarm(id)
+     }
  }

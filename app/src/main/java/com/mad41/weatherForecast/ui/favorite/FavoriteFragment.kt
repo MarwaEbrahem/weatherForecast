@@ -26,7 +26,7 @@ class  FavoriteFragment : Fragment() {
     ): View? {
         favViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
         binding = FragmentFavLocationsBinding.inflate(layoutInflater)
-        favViewModel.getFavLocationFromRoom(requireContext())
+        favViewModel.getFavLocationFromRoom()
         favViewModel.favLocFromRoomLiveData.observe(viewLifecycleOwner, Observer {
             handleFavLocData(it)
         })
@@ -35,7 +35,15 @@ class  FavoriteFragment : Fragment() {
                 deleteFavLoc(address)
             }
             override fun saveLocationInSharedPreference(address: String,LatLong: String) {
-                favViewModel.writeFavInSharedPreference(address,LatLong , requireContext())
+                favViewModel.writeFavInSharedPreference(address,LatLong)
+            }
+
+            override fun writeFavInSharedPreference(fav: Boolean) {
+                favViewModel.writeFavInSharedPreference(fav)
+            }
+
+            override fun getAddressFromSharedPreference(): String? {
+                return favViewModel.getAddressFromSharedPreference()
             }
         }
         val root = binding.root
@@ -45,6 +53,9 @@ class  FavoriteFragment : Fragment() {
     private fun handleFavLocData(it: Resource<List<favLocation>>?) {
         when (it) {
             is Resource.Success -> {
+                if(it.data == null){
+                    showMassage()
+                }
                 it.data?.let {
                     setupRecycleView(it)
                 }
@@ -55,16 +66,31 @@ class  FavoriteFragment : Fragment() {
         }
     }
     private fun setupRecycleView(it: List<favLocation>){
+        if(it.isEmpty()){
+            binding.favList.visibility = View.GONE
+            binding.favMsg.visibility = View.VISIBLE
+            binding.favImg.visibility = View.VISIBLE
+        }
+        else {
+            binding.favList.visibility = View.VISIBLE
+            binding.favMsg.visibility = View.GONE
+            binding.favImg.visibility = View.GONE
+        }
         favAdapter = favLocAdapter(it , context , listner)
         binding.facLocations.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = favAdapter
         }
     }
+    fun showMassage() {
+        binding.favList.visibility = View.GONE
+        binding.favMsg.visibility = View.VISIBLE
+        binding.favImg.visibility = View.VISIBLE
+    }
     private fun deleteFavLoc(address:String){
-        favViewModel.deleteFavLocationFromRoom(context,address)
+        favViewModel.deleteFavLocationFromRoom(address)
         favViewModel.deleteLocLiveData.observe(viewLifecycleOwner, Observer {
-            favViewModel.getFavLocationFromRoom(context)
+            favViewModel.getFavLocationFromRoom()
             notifyRecycleViewWithChanage()
         })
     }

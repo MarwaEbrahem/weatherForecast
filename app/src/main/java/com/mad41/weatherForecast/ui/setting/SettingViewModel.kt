@@ -29,45 +29,48 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     var latitude = 0.0
     var longitude = 0.0
     lateinit var SP: SharedPreferences
-    val addressLiveData = MutableLiveData<String>()
     var App = application
-    val reguestPermissionLiveData = MutableLiveData<Boolean>()
-    val openLocationLiveData = MutableLiveData<Boolean>()
+    private val context = getApplication<Application>().applicationContext
+    val addressLiveData = MutableLiveData<String>()
+    val existLiveData = MutableLiveData<Boolean>()
     val locationResultLiveData = MutableLiveData<String>()
     var mFusedLocationClient: FusedLocationProviderClient
     private val newRepo : repository
     init {
         newRepo = repository()
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(App)
+        SP = PreferenceManager.getDefaultSharedPreferences(context)
     }
 
-    fun writeAddressInSharedPreference(latLon: String, address: String, context: Context) {
-        SP = PreferenceManager.getDefaultSharedPreferences(context)
+    fun writeAddressInSharedPreference(latLon: String, address: String) {
         var editor = SP.edit()
         editor.putString("LatLng_Map", latLon)
         editor.putString("Address_Map", address)
         editor.commit()
     }
 
-    fun writeFavInSharedPreference(fav: Boolean, context: Context) {
-        SP = PreferenceManager.getDefaultSharedPreferences(context)
+    fun writeFavInSharedPreference(fav: Boolean) {
         var editor = SP.edit()
         editor.putBoolean("Fav_State", fav)
         editor.commit()
     }
 
-    fun getTheAddress(latitude: Double, longitude: Double, context: Context){
+    fun getTheAddress(latitude: Double, longitude: Double){
         val geoCoder = Geocoder(context, Locale.getDefault())
         val address = geoCoder.getFromLocation(latitude, longitude, 1)
         if(address!=null)
         addressLiveData.postValue(address[0].getAddressLine(0).toString())
     }
 
-    fun addFavLocationToRoom(context: Context ,address:String , lat : Double , lon : Double){
+    fun addFavLocationToRoom(address:String , lat : Double , lon : Double){
         viewModelScope.launch {
             newRepo.insertFavLocToRoom(context, favLocation(address,lat, lon))
         }
-
+    }
+    fun FavLocationIsExist(address:String ){
+        viewModelScope.launch {
+            existLiveData.postValue(newRepo.FavLocFromIsExistInRoom(context,address))
+        }
     }
   /*  @SuppressLint("MissingPermission")
     fun getLastLocation() {

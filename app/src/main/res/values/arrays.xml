@@ -11,22 +11,13 @@
     </string-array>
 
     <string-array name="Temp_unit">
-        <item>C</item>
-        <item>F</item>
+        <item>Cْ , m/s</item>
+        <item>Fْ , km/h</item>
     </string-array>
 
     <string-array name="Temp_unit_values">
         <item>temp_c</item>
         <item>temp_f</item>
-    </string-array>
-    <string-array name="wind_speed">
-        <item>m/s</item>
-        <item>km/h</item>
-    </string-array>
-
-    <string-array name="wind_speed_values">
-        <item>meters</item>
-        <item>kiloMeters</item>
     </string-array>
 
     <string-array name="language">
@@ -38,4 +29,18 @@
         <item>Arabic</item>
         <item>English</item>
     </string-array>
+
+    <string-array name="events">
+        <item>Rain</item>
+        <item>Wind</item>
+        <item>Fog</item>
+        <item>Snow</item>
+        <item>Clouds</item>
+        <item>Thunderstorm</item>
+        <item>Clear</item>
+        <item>Drizzle</item>
+        <item>Dust</item>
+        <item>Mist</item>
+    </string-array>
+
 </resources>

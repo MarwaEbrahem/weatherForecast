@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyNavigation</string>
+    <string name="app_name">weather Forecast</string>
     <string name="title_home">weather</string>
     <string name="title_dashboard">fav</string>
     <string name="title_notifications">alarm</string>
@@ -8,8 +8,7 @@
     <!-- Preference Titles -->
     <!-- Preference Titles -->
     <string name="messages_header">Location Mode</string>
-    <string name="temp_unit">Temperature unite</string>
-    <string name="wind_speed">wind speed</string>
+    <string name="temp_unit">Temperature unite and Wind speed</string>
     <string name="language">Language</string>
 
     <!-- Messages Preferences -->
@@ -30,4 +29,24 @@
     <string name="fav_after">fav_after</string>
     <string name="deleteEntry">do you want delete this location ?</string>
     <string name="TitleDelete">Delete Location</string>
+    <string name="TitleDeleteAlarm">"Do you want cancel this alarm ? "</string>
+    <string name="alarm_massage">send notification about current weather alert  </string>
+    <string name="alarm_off">Alarm off</string>
+    <string name="cancelAlarm">Alarm cancel</string>
+    <string name="languages">language</string>
+    <string name="today">Today</string>
+    <string name="days">7Days</string>
+    <string name="alarm_on">Alarm On</string>
+    <string name="humidity">Humidity</string>
+    <string name="cloud">Cloud</string>
+    <string name="wind">Wind</string>
+    <string name="pressure">Pressure</string>
+    <string name="first">Add location from setting</string>
+    <string name="welcome">Welcome</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="event">Event</string>
+    <string name="save">save</string>
+    <string name="favmsg">There are no locations in favorites</string>
+
 </resources>

@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:drawableRight="@drawable/ic_iconfinder_heart_favourite_favorite_love_2203510" />
+        android:drawableRight="@drawable/heartlight" />
 
 
 </LinearLayout>

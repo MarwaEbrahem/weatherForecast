@@ -9,34 +9,80 @@
     app:cardCornerRadius="15dp">
 
     <LinearLayout
-        android:id="@+id/row"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="#9F050505"
+        android:orientation="horizontal"
+        android:weightSum="5">
 
-        <TextView
-            android:id="@+id/address"
+        <LinearLayout
+            android:id="@+id/row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:orientation="vertical"
+            android:weightSum="6">
 
-        <TextView
-            android:id="@+id/lat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="2"
+                android:drawableLeft="@drawable/ic_iconfinder_20_blue_address_home_house_4488794"
+                android:drawablePadding="10dp"
+                android:gravity="left"
+                android:text="TextView"
+                android:textColor="#090909" />
 
-        <TextView
-            android:id="@+id/lan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/deleteLoc"
+                <TextView
+                    android:id="@+id/lan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="2"
+                    android:drawableLeft="@drawable/ic_iconfinder_location_7149733"
+                    android:drawablePadding="10dp"
+                    android:text="TextView"
+                    android:textColor="#9A090909"/>
+
+                <TextView
+                    android:id="@+id/lat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="2"
+                    android:text="TextView"
+                    android:textColor="#9A090909"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="delete" />
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/deleteLoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/ic_iconfinder_ic_delete_sweep_48px_3669138" />
+        </LinearLayout>
+
     </LinearLayout>
 
 

@@ -14,7 +14,7 @@ interface weatherAPI {
         @Query("lon")
         longitute : Double = 31.811520,
         @Query("exclude")
-        Exclude : String = "hourly,minutely",
+        Exclude : String = "minutely",
         @Query("units")
         Units : String = "metric",
         @Query("lang")

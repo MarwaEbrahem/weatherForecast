@@ -6,10 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".ui.favorite.FavoriteFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/facLocations"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/favImg"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:paddingBottom="50dp" />
+        app:srcCompat="@drawable/ic_undraw_appreciation_re_p6rl" />
+
+    <TextView
+        android:id="@+id/favMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="450dp"
+        android:layout_marginEnd="50dp"
+        android:gravity="center"
+        android:text="@string/favmsg"
+        android:textSize="24sp" />
+
+    <LinearLayout
+        android:id="@+id/favList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/facLocations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="50dp" />
+    </LinearLayout>
+
 </FrameLayout>

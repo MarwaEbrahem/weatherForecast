@@ -12,10 +12,14 @@ import com.mad41.weatherForecast.dataLayer.entity.weatherModel.Daily
 data class weather(
     @PrimaryKey
     val id : Int,
+    @ColumnInfo(name = "alert")
+    val alerts: List<Alert>?,
     @ColumnInfo(name = "current")
     val current: Current,
     @ColumnInfo(name = "daily")
     val daily: List<Daily>,
+    @ColumnInfo(name = "hourly")
+    val hourly: List<Hourly>,
     @ColumnInfo(name = "lat")
     val lat: Double,
     @ColumnInfo(name = "lon")

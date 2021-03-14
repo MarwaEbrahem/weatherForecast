@@ -5,7 +5,7 @@ data class Daily(
 
     val clouds: Double,
     val dew_point: Double,
-    val dt: Double,
+    val dt: Int,
     val feels_like: FeelsLike,
     val humidity: Double,
     val pop: Double,
@@ -15,7 +15,7 @@ data class Daily(
     val sunset: Double,
     val temp: Temp,
     val uvi: Double,
-    val weather: List<WeatherXX>,
+    val weather: List<WeatherX>,
     val wind_deg: Double,
     val wind_speed: Double
 )

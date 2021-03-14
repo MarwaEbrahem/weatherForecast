@@ -13,6 +13,6 @@ interface favLocDao {
     @Query("DELETE FROM favLocations WHERE address = :address")
     suspend fun deleteLocation(address :String)
 
-   /* @Delete
-    suspend fun deleteLocation(favLoc: favLocation)*/
+    @Query("SELECT EXISTS (SELECT 1 FROM favLocations WHERE address = :address)")
+    suspend fun exists(address :String): Boolean
 }

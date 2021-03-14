@@ -35,13 +35,6 @@
             app:key="Temp"
             app:title="@string/temp_unit"
             app:useSimpleSummaryProvider="true" />
-        <ListPreference
-            app:defaultValue="meters"
-            app:entries="@array/wind_speed"
-            app:entryValues="@array/wind_speed_values"
-            app:key="wind"
-            app:title="@string/wind_speed"
-            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/language">
@@ -50,7 +43,7 @@
             app:entries="@array/language"
             app:entryValues="@array/language_values"
             app:key="language"
-            app:title="language"
+            app:title="@string/languages"
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 

@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">تنبؤ الطقس</string>
+    <string name="title_home">الطقس</string>
+    <string name="title_dashboard">المفضل</string>
+    <string name="title_notifications">المنبه</string>
+    <string name="title_setting">الاعدادات</string>
+    <string name="title_activity_maps">الخريطة</string>
+    <!-- Preference Titles -->
+    <!-- Preference Titles -->
+    <string name="messages_header">وضع الموقع</string>
+    <string name="temp_unit">وحدة قياس درجه الحرارة وسرعه الرياح</string>
+    <string name="language">اللغة</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="location_title">الموقع</string>
+    <string name="unite_title">الوحدة</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="sync_header">Sync</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="fav">fav</string>
+    <string name="fav_after">fav_after</string>
+    <string name="deleteEntry">هل تريد مسح هذا الموقع؟</string>
+    <string name="TitleDelete">مسح الموقع</string>
+    <string name="TitleDeleteAlarm">هل تريد الغاء هذا المنبه؟</string>
+    <string name="alarm_massage">ارسال اشعار عن اخطارات الطقس الحاليه </string>
+    <string name="alarm_off">المنبه مغلق</string>
+    <string name="cancelAlarm">الغاء المنبه</string>
+    <string name="languages">اللغه</string>
+    <string name="today">اليوم</string>
+    <string name="days">7ايام</string>
+    <string name="alarm_on">المنبه مفعل</string>
+    <string name="humidity">الرطوبة</string>
+    <string name="cloud">السحاب</string>
+    <string name="wind">الرياح</string>
+    <string name="pressure">الضغط</string>
+    <string name="first">اضف موقع من الاعدادات</string>
+    <string name="welcome">مرحبا</string>
+    <string name="from">من </string>
+    <string name="to">الي </string>
+    <string name="event">الحدث </string>
+    <string name="save">حفظ</string>
+    <string name="favmsg">لا يوجد اماكن في المفضلة</string>
+
+</resources>

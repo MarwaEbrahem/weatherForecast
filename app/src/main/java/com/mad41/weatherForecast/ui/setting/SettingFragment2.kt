@@ -2,6 +2,7 @@ package com.mad41.weatherForecast.ui.setting
 
 import android.Manifest
 import android.app.Activity
+import android.app.Activity.RESULT_CANCELED
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,9 +12,8 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import androidx.annotation.RequiresApi
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -24,12 +24,11 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.google.android.gms.location.places.ui.PlacePicker
 import com.mad41.weatherForecast.R
 import com.mad41.weatherForecast.ui.MainActivity
-import com.mad41.weatherForecast.ui.map.MapsActivity
+import java.text.DecimalFormat
 import java.util.*
 
 
-class SettingFragment2 : PreferenceFragmentCompat() {
-    var resultLiveData = MutableLiveData<Boolean>()
+ class SettingFragment2 : PreferenceFragmentCompat() {
     var wifiManager: WifiManager? = null
     private val PLACE_PICKER_REQUEST = 999
     var TP: Preference? = null
@@ -41,7 +40,6 @@ class SettingFragment2 : PreferenceFragmentCompat() {
     var PERMISSION_ID = 2
     lateinit var SP: SharedPreferences
     private lateinit var settingViewModel: SettingViewModel
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
         settingViewModel = ViewModelProvider(this).get(SettingViewModel::class.java)
@@ -55,7 +53,7 @@ class SettingFragment2 : PreferenceFragmentCompat() {
         favBtn = findPreference(getString(R.string.fav))
         favBtn!!.onPreferenceClickListener = Preference.OnPreferenceClickListener {
             addToFav()
-            settingViewModel.writeFavInSharedPreference(true, requireContext())
+            settingViewModel.writeFavInSharedPreference(true)
             true
         }
         Lp?.setOnPreferenceChangeListener { preference, newValue ->
@@ -78,13 +76,6 @@ class SettingFragment2 : PreferenceFragmentCompat() {
             chooseLanguage(preference, newValue as String)
             true
         }
-       /* settingViewModel.reguestPermissionLiveData.observe(this, androidx.lifecycle.Observer {
-            RequestPermission()
-        })*/
-        /*settingViewModel.openLocationLiveData.observe(this, androidx.lifecycle.Observer {
-            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            startActivity(intent)
-        })*/
         settingViewModel.locationResultLiveData.observe(this, androidx.lifecycle.Observer {
             var R =  it.split(",")
             showAddress(R.get(0).toDouble(),R.get(1).toDouble())
@@ -97,8 +88,6 @@ class SettingFragment2 : PreferenceFragmentCompat() {
         if (preference!!.key.equals("location")) {
             when (item) {
                 "choose_on_map" -> {
-                    //val intent = Intent(requireActivity(), MapsActivity::class.java)
-                    //startActivity(intent)
                     wifiManager!!.isWifiEnabled = true
                     openPlacePicker()
                 }
@@ -109,7 +98,6 @@ class SettingFragment2 : PreferenceFragmentCompat() {
             }
         }
     }
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun chooseLanguage(preference: Preference?, newValue: String){
         var item: String = newValue
         if (preference!!.key.equals("language")) {
@@ -132,7 +120,7 @@ class SettingFragment2 : PreferenceFragmentCompat() {
         TP!!.summary
         var R =  TP!!.title.split(",")
        System.out.println("-----------------------------------------"+R.get(0).toDouble() +"-------------"+ R.get(1).toDouble())
-        settingViewModel.addFavLocationToRoom(requireContext(), TP!!.summary as String,R.get(0).toDouble(),R.get(1).toDouble())
+        settingViewModel.addFavLocationToRoom( TP!!.summary as String,R.get(0).toDouble(),R.get(1).toDouble())
     }
 
     private fun retrive() {
@@ -175,13 +163,16 @@ class SettingFragment2 : PreferenceFragmentCompat() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                PLACE_PICKER_REQUEST -> {
-                    val place = PlacePicker.getPlace(context,data)
-                    place.latLng.longitude
-                    showAddress(place.latLng.latitude,place.latLng.longitude)
+        if(resultCode != RESULT_CANCELED) {
+            if (resultCode == Activity.RESULT_OK) {
+                when (requestCode) {
+                    PLACE_PICKER_REQUEST -> {
+                        val place = PlacePicker.getPlace(context, data)
+                        showAddress(place.latLng.latitude, place.latLng.longitude)
+                    }
                 }
+            }else{
+                Toast.makeText(context,"press again",Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -195,31 +186,44 @@ class SettingFragment2 : PreferenceFragmentCompat() {
         }
     }
 
-    public fun showAddress(lat:Double , lag : Double) {
+    public fun showAddress(lat: Double, lag: Double) {
       //  val place = PlacePicker.getPlace(context, data)
+        System.out.println("+++++++++++++++++$lat+++++$lag")
         val latitude : Float = lat.toFloat()
         val longitude :Float = lag.toFloat()
         val PlaceLatLng = "$latitude , $longitude"
-        settingViewModel.getTheAddress(lat,lag,requireContext())
+        settingViewModel.getTheAddress(lat,lag)
         settingViewModel.addressLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            settingViewModel.writeAddressInSharedPreference(PlaceLatLng, it!!)
+            settingViewModel.FavLocationIsExist(it)
             TP!!.isVisible = true
             TP!!.setSummary(it)
             TP!!.title = "$latitude , $longitude"
-            fav_A!!.isVisible = false
-            fav!!.isVisible = true
-            settingViewModel.writeAddressInSharedPreference(PlaceLatLng, it!! ,requireContext())
-            settingViewModel.writeFavInSharedPreference(false,requireContext())
+            settingViewModel.existLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                when(it){
+                    true->{
+                        fav_A!!.isVisible = true
+                        fav!!.isVisible = false
+                        settingViewModel.writeFavInSharedPreference(true)
+                    }
+                    false->{
+                        fav_A!!.isVisible = false
+                        fav!!.isVisible = true
+                        settingViewModel.writeFavInSharedPreference(false)
+                    }
+                }
+            })
         })
 
     }
-
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     open fun setLocale(activity: Activity, languageCode: String?): Unit {
         val locale = Locale(languageCode)
         Locale.setDefault(locale)
         val resources = activity.resources
         val config = resources.configuration
-        config.setLocale(locale)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            config.setLocale(locale)
+        }
         resources.updateConfiguration(config, resources.displayMetrics)
     }
 
