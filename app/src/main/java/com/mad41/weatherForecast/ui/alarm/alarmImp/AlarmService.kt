@@ -3,8 +3,10 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
 import android.util.Log
+import android.widget.Toast
 
 class AlarmService(private val context: Context) {
     private val alarmManager: AlarmManager? =
@@ -12,6 +14,7 @@ class AlarmService(private val context: Context) {
     fun setExactAlarm(
         timeInMillis: Long,
         event: String,
+        msg : String,
         requestCode: Int
     ) {
         setAlarm(
@@ -22,19 +25,8 @@ class AlarmService(private val context: Context) {
                         Constants.ACTION_SET_EXACT
                     putExtra(Constants.EXTRA_EXACT_ALARM_TIME, timeInMillis)
                     putExtra(Constants.ACTION_EVENT, event)
+                    putExtra(Constants.ACTION_MSG, msg)
                 } , requestCode
-            )
-        )
-    }
-    fun setRepetitiveAlarm(timeInMillis: Long , requestCode : Int) {
-        setDailyAlarm(
-            timeInMillis,
-            getPendingIntent(
-                getIntent().apply {
-                    action =
-                        Constants.ACTION_SET_REPETITIVE_EXACT
-                    putExtra(Constants.EXTRA_EXACT_ALARM_TIME, timeInMillis)
-                },requestCode
             )
         )
     }
@@ -65,23 +57,26 @@ class AlarmService(private val context: Context) {
             }
         }
     }
-    private fun setDailyAlarm(timeInMillis: Long, pendingIntent: PendingIntent){
-        alarmManager?.setInexactRepeating(
-            AlarmManager.RTC_WAKEUP,
-            timeInMillis,
-            AlarmManager.INTERVAL_DAY,
-            pendingIntent
-        )
-    }
      fun cancel(requestCode: Int){
         alarmManager?.cancel(getPendingIntent(getIntent(),requestCode))
          System.out.println("===---===---===---===--==-- From cancel")
-         Log.i("alarm","===---===---===---===--==-- From cancel")
     }
+     fun setAlertAlaram(
+         alarmtime: Long,
+         event: String,
+         msg: String,
+         code: Int
+     ) {
+        val intentDialogueReciever = getIntent().apply {
+            action = Constants.ACTION_Alert
+               putExtra(Constants.ACTION_EVENT, event)
+               putExtra(Constants.ACTION_MSG, msg)
+        }
+        val pendingIntentDialogueReciever =
+            PendingIntent.getBroadcast(context, code, intentDialogueReciever, 0)
+        alarmManager!!.setExact(AlarmManager.RTC_WAKEUP, alarmtime, pendingIntentDialogueReciever)
+        context.registerReceiver(AlarmReceiver(), IntentFilter())
 
+    }
     private fun getIntent() = Intent(context, AlarmReceiver::class.java)
-
-    private fun getRandomRequestCode() =
-        RandomUtil.getRandomInt()
-
 }

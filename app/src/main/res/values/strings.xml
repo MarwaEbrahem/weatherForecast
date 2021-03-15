@@ -48,5 +48,8 @@
     <string name="event">Event</string>
     <string name="save">save</string>
     <string name="favmsg">There are no locations in favorites</string>
+    <string name="cancelAlarmSound">Cancel</string>
+    <string name="not" translatable="false">Notification</string>
+    <string name="sound" translatable="false">Sound Alarm</string>
 
 </resources>

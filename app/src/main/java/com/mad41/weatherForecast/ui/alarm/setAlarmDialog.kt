@@ -15,13 +15,14 @@ import com.mad41.weatherForecast.dataLayer.Resource
 import com.mad41.weatherForecast.dataLayer.entity.weatherModel.Hourly
 import com.mad41.weatherForecast.ui.alarm.alarmImp.AlarmService
 import com.mad41.weatherForecast.ui.alarm.alarmImp.RandomUtil
+import java.text.SimpleDateFormat
 import java.util.*
 
 class setAlarmDialog : DialogFragment() {
-
     companion object {
         const val TAG = "DialogWithData"
     }
+
     private lateinit var viewModel: AlarmViewModel
     lateinit var submit: Button
     lateinit var spinner: Spinner
@@ -29,14 +30,15 @@ class setAlarmDialog : DialogFragment() {
     lateinit var timePacker: ImageView
     lateinit var timeTxt: TextView
     lateinit var dateTxt: TextView
+    var radioGroup: RadioGroup? = null
     lateinit var alarmService: AlarmService
     lateinit var alarmHours: List<Hourly>
-    var x:Long = 0
-    var startTime:String = ""
-    var y:Long = 0
-    var endTime:String= ""
-    var event:String= ""
-
+    var x: Long = 0
+    var startTime: String = ""
+    var y: Long = 0
+    var endTime: String = ""
+    var event: String = ""
+    var alarm = ""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,6 +53,7 @@ class setAlarmDialog : DialogFragment() {
         alarmService = AlarmService(
             requireContext()
         )
+        radioGroup = view.findViewById(R.id.GB)
         submit = view.findViewById(R.id.submit)
         spinner = view.findViewById(R.id.spinner2)
         datePacker = view.findViewById(R.id.DatePacker)
@@ -58,7 +61,7 @@ class setAlarmDialog : DialogFragment() {
         timeTxt = view.findViewById(R.id.timeTxt)
         dateTxt = view.findViewById(R.id.DataTxt)
         val events = resources.getStringArray(R.array.events)
-        val myAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1,events)
+        val myAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, events)
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.setAdapter(myAdapter)
         spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
@@ -71,6 +74,11 @@ class setAlarmDialog : DialogFragment() {
 
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
         })
+        radioGroup!!.setOnCheckedChangeListener { group, checkedId -> // checkedId is the RadioButton selected
+            val rb = view.findViewById(checkedId) as RadioButton
+            alarm = rb.text as String
+
+        }
         viewModel.getWeatherFromRoom()
         viewModel.weatherFromRoomLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             when (it) {
@@ -80,12 +88,10 @@ class setAlarmDialog : DialogFragment() {
                     }
                 }
                 is Resource.Error -> {
-
                 }
             }
         })
-      setupClickListeners(view)
-
+        setupClickListeners(view)
     }
 
     override fun onStart() {
@@ -100,34 +106,86 @@ class setAlarmDialog : DialogFragment() {
         timePacker.setOnClickListener {
             setAlarm {
                 x = it
-                startTime = viewModel. getDate(it , "MM/dd/yyyy hh:mm:ss").toString()
-                timeTxt.text = viewModel.getDate(it , "dd-MM-yyyy hh:mm a")
+                startTime = viewModel.getDate(it, "MM/dd/yyyy hh:mm:ss a").toString()
+                timeTxt.text = viewModel.getDate(it, "dd-MM-yyyy hh:mm a")
             }
         }
-        datePacker.setOnClickListener{
+        datePacker.setOnClickListener {
             setAlarm {
                 y = it
-                endTime =  viewModel.getDate(it , "MM/dd/yyyy hh:mm:ss").toString()
-                dateTxt.text = viewModel.getDate(it , "dd-MM-yyyy hh:mm a")
+                endTime = viewModel.getDate(it, "MM/dd/yyyy hh:mm:ss a").toString()
+                dateTxt.text = viewModel.getDate(it, "dd-MM-yyyy hh:mm a")
             }
 
         }
         submit.setOnClickListener {
-            val result = viewModel.search11(alarmHours,startTime,endTime,event)
-            if (result != null) {
-                alarmService.setExactAlarm(x, result.weather.get(0).description,
-                    RandomUtil.getRandomInt())
+            if (startTime.equals("") || endTime.equals("") || alarm.equals("")) {
+                Toast.makeText(context, "Date is required :(", Toast.LENGTH_LONG).show()
             } else {
-                alarmService.setExactAlarm(x, event + " not found at this time",
-                    RandomUtil.getRandomInt())
+                val currentTime = Calendar.getInstance().getTime();
+                val formatter = SimpleDateFormat("MM/dd/yyyy hh:mm:ss a")
+                val answer: String = formatter.format(currentTime)
+                System.out.println("================================== " + answer)
+                if (startTime < answer || endTime < answer) {
+                    Toast.makeText(context, "Enter valid time :(", Toast.LENGTH_LONG).show()
+                } else {
+                    val code = RandomUtil.getRandomInt()
+                    val result = viewModel.search11(alarmHours, startTime, endTime, event)
+                    if (result != null) {
+                        if (alarm.equals("Notification")) {
+                            alarmService.setExactAlarm(
+                                x,
+                                result.weather.get(0).description,
+                                " at " + viewModel.getDateTime(
+                                    result.dt.toString(),
+                                    "dd-MM-yyyy hh:mm a"
+                                ),
+                                code
+                            )
+                        } else if (alarm.equals("Sound Alarm")) {
+                            alarmService.setAlertAlaram(
+                                x,
+                                result.weather.get(0).description,
+                                " at " + viewModel.getDateTime(
+                                    result.dt.toString(),
+                                    "dd-MM-yyyy hh:mm a"
+                                ),
+                                code
+                            )
+                        }
+
+                    } else {
+                        if (alarm.equals("Notification")) {
+                            alarmService.setExactAlarm(
+                                x,
+                                event + " not found ",
+                                "FROM " + startTime + " TO " + endTime,
+                                code
+                            )
+                        } else if (alarm.equals("Sound Alarm")) {
+                            alarmService.setAlertAlaram(
+                                x,
+                                event + " not found ",
+                                "FROM " + startTime + " TO " + endTime,
+                                code
+                            )
+
+                        }
+
+                    }
+                    viewModel.addAlarmToRoom(
+                        timeTxt.text as String, dateTxt.text as String, event,
+                        code
+                    )
+                    val alarmFrag = AlarmFragment()
+                    fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment, alarmFrag)
+                        ?.addToBackStack(null)?.commit()
+                    dismiss()
+                }
             }
-            viewModel.addAlarmToRoom(timeTxt.text as String,dateTxt.text as String ,event ,
-                RandomUtil.getRandomInt())
-            val alarmFrag = AlarmFragment()
-            fragmentManager?.beginTransaction()?.replace(R.id.nav_host_fragment,alarmFrag)?.addToBackStack(null)?.commit()
-            dismiss()
         }
     }
+
     private fun setAlarm(callback: (Long) -> Unit) {
         Calendar.getInstance().apply {
             this.set(Calendar.SECOND, 0)

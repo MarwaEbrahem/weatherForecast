@@ -39,8 +39,6 @@ class dailyAdapter(
         private val Dtemp =  view.findViewById<TextView>(R.id.Dtemp)
         private val wind =  view.findViewById<TextView>(R.id.windSp)
 
-
-
         fun bind(
             dailyWeather: Daily,
             c: Context?,

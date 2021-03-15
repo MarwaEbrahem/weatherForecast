@@ -53,7 +53,7 @@ class WeatherFragment : Fragment() {
                                 sendAlarm(it.alerts)
                             }
                             else{
-                                alarmService.setExactAlarm(calendar.timeInMillis,"You don't have alerts in current weather",1)
+                                 alarmService.setExactAlarm(calendar.timeInMillis,"You don't have alerts in current weather","",1)
                             }
                         }
                     }
@@ -185,11 +185,11 @@ class WeatherFragment : Fragment() {
     fun sendAlarm(alerts: List<Alert>) {
         for (item in iterator<Alert> { alerts }) {
             item.event
-            values = values+item.event+ " from"+homeViewModel
+            values = values+item.event+ " from "+homeViewModel
                 .getDateTime(item.start.toString(),"dd-MM-yyyy  hh:mm a","en")+" to "+
                     homeViewModel.getDateTime(item.end.toString(),"dd-MM-yyyy  hh:mm a" ,"en")+"\n"
         }
-        alarmService.setExactAlarm(calendar.timeInMillis,values,1)
+        alarmService.setExactAlarm(calendar.timeInMillis,values,"",1)
     }
 
 

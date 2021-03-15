@@ -72,28 +72,6 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
             existLiveData.postValue(newRepo.FavLocFromIsExistInRoom(context,address))
         }
     }
-  /*  @SuppressLint("MissingPermission")
-    fun getLastLocation() {
-        if (CheckPermission()) {
-            if (isLocationEnabled()) {
-                mFusedLocationClient!!.lastLocation.addOnCompleteListener { task ->
-                    val location = task.result
-                    if (location == null) {
-                        requestNewLocationData()
-                    } else {
-                        latitude = location.latitude
-                        longitude = location.longitude
-                        locationResultLiveData.postValue("$latitude , $longitude")
-                    }
-                }
-            } else {
-                Toast.makeText(getApplication(), "Turn on location", Toast.LENGTH_SHORT).show()
-                openLocationLiveData.postValue(true)
-            }
-        } else {
-            reguestPermissionLiveData.postValue(true)
-        }
-    }*/
   @SuppressLint("MissingPermission")
   fun getLastLocation() {
       mFusedLocationClient!!.lastLocation.addOnCompleteListener { task ->
@@ -107,7 +85,6 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
           }
       }
   }
-
     @SuppressLint("MissingPermission")
     private fun requestNewLocationData() {
         val locationRequest = LocationRequest()

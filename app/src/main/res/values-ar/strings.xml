@@ -48,5 +48,6 @@
     <string name="event">الحدث </string>
     <string name="save">حفظ</string>
     <string name="favmsg">لا يوجد اماكن في المفضلة</string>
+    <string name="cancelAlarmSound">الغاء</string>
 
 </resources>

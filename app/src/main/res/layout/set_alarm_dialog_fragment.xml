@@ -13,6 +13,38 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="100dp"
+                android:layout_marginRight="35dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/from"
+                android:textColor="#FFC107" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="50dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/to"
+                android:textColor="#FFC107" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="2">
@@ -22,7 +54,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="35dp"
-                android:layout_marginTop="50dp"
                 android:layout_marginRight="30dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/ic_iconfinder_calendar_clock_299096" />
@@ -32,7 +63,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
-                android:layout_marginTop="50dp"
                 android:layout_marginRight="35dp"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
@@ -68,8 +98,27 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginRight="20dp" />
+
+        <RadioGroup
+            android:id="@+id/GB"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp">
+
+            <RadioButton
+                android:id="@+id/RB1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/not"
+                />
+
+            <RadioButton
+                android:id="@+id/RB2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sound" />
+        </RadioGroup>
 
         <Button
             android:id="@+id/submit"

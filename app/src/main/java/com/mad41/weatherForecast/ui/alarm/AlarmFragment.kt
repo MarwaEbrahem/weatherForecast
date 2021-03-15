@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +26,6 @@ class AlarmFragment : Fragment()  {
     var event:String= ""
     private lateinit var AlarmAdapter :alarmAdapter
     private lateinit var listner: alarmListner
-    val c = Calendar.getInstance()
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -43,7 +43,7 @@ class AlarmFragment : Fragment()  {
                     }
                 }
                 is Resource.Error -> {
-
+                   Toast.makeText(context , "error in room ", Toast.LENGTH_LONG).show()
                 }
             }
         })
@@ -57,7 +57,6 @@ class AlarmFragment : Fragment()  {
                 alarmViewModel.deleteFromRoomLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                         notifyRecycleViewWithChanage()
                 })
-               // cancelAlarm(requestCode)
                 alarmService.cancel(requestCode)
             }
         }
@@ -72,24 +71,6 @@ class AlarmFragment : Fragment()  {
             }
 
         }
-        /*val dateSetListener = object : DatePickerDialog.OnDateSetListener {
-            override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,
-                                   dayOfMonth: Int) {
-                c.set(Calendar.YEAR, year)
-                c.set(Calendar.MONTH, monthOfYear)
-                c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                updateDateInView()
-            }
-        }
-        binding.DatePacker!!.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(view: View) {
-                DatePickerDialog(requireContext(),
-                    dateSetListener,
-                    c.get(Calendar.YEAR),
-                    c.get(Calendar.MONTH),
-                    c.get(Calendar.DAY_OF_MONTH)).show()
-            }
-        })*/
         alarmService = AlarmService(
             requireContext()
         )
@@ -98,25 +79,6 @@ class AlarmFragment : Fragment()  {
         }
         return root
     }
-
-
-  /*  private fun updateDateInView() {
-        val myFormat = "dd/MM/yyyy"
-        val sdf = SimpleDateFormat(myFormat, Locale.US)
-        binding.DataTxt!!.text = sdf.format(c.getTime())
-    }*/
-  fun setDailyAlarm(callback: (Long) -> Unit){
-      val cal = Calendar.getInstance()
-      val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
-          cal.set(Calendar.HOUR_OF_DAY, hour)
-          cal.set(Calendar.MINUTE, minute)
-          binding.TimeTxt.text = SimpleDateFormat("HH:mm").format(cal.time)
-          System.out.println("========================================================"+cal.time)
-
-      }
-      TimePickerDialog(context, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), false).show()
-      callback(cal.timeInMillis)
-  }
     private fun setupRecycleView(it: List<alarm>){
         AlarmAdapter = alarmAdapter(it , context , listner)
         binding.alarmRecycleView.apply {
@@ -136,15 +98,6 @@ class AlarmFragment : Fragment()  {
             }
         })
     }
-   /* fun cancelAlarm(requestCode : Int){
-        val alarmManager =
-            context?.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
-        val pendingIntent =
-            PendingIntent.getBroadcast(context, requestCode, Intent(context, AlarmReceiver::class.java),
-                PendingIntent.FLAG_UPDATE_CURRENT)
-            alarmManager!!.cancel(pendingIntent)
-
-    }*/
 }
 
 

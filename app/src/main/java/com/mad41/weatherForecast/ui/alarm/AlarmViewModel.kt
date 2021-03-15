@@ -2,7 +2,9 @@ package com.mad41.weatherForecast.ui.alarm
 
 import android.app.Application
 import android.content.SharedPreferences
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import com.mad41.weatherForecast.dataLayer.Resource
 import com.mad41.weatherForecast.dataLayer.entity.alarmModel.alarm
@@ -13,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class AlarmViewModel(application: Application) : AndroidViewModel(application) {
@@ -34,7 +37,11 @@ class AlarmViewModel(application: Application) : AndroidViewModel(application) {
     }
      fun handleGetAlarmFromRoom(result: List<alarm>): Resource<List<alarm>>? {
         if (result != null) {
-            return Resource.Success(result)
+            val currentTime = Calendar.getInstance().getTime();
+            val formatter = SimpleDateFormat("dd-MM-yyyy hh:mm a")
+            val answer: String = formatter.format(currentTime)
+            val R = result.filter {it.DateAndTimeFrom > answer}
+            return Resource.Success(R)
         }
         return Resource.Error("Room is empty")
     }
@@ -132,4 +139,5 @@ class AlarmViewModel(application: Application) : AndroidViewModel(application) {
     fun getAlarmStateFromSharedPreference(): Boolean {
         return SP.getBoolean("Alarm_state",false)
     }
+
 }
